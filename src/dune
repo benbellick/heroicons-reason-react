@@ -4,5 +4,7 @@
   (run generator)))
 
 (library
- (name hero_icons)
+ (name heroicons)
+ (public_name heroicons-reason-react)  
+ (wrapped false)
  (modes melange))
