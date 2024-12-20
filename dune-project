@@ -4,7 +4,9 @@
 
 (name heroicons-reason-react)
 
-(generate_opam_files true)
+; Because we need to add a custom build step in the opam file of
+; `dune build @generate_code`, we don't generate the opam file
+; (generate_opam_files true)
  
 (version 1.0)
 
