@@ -4,4 +4,5 @@
   (run generator)))
 
 (library
- (name hero_icons))
+ (name hero_icons)
+ (modes melange))
