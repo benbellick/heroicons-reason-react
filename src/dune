@@ -3,7 +3,12 @@
  (action
   (run generator)))
 
+(include_subdirs qualified)
+
 (library
  (name heroicons)
  (public_name heroicons-reason-react)
+ (preprocess
+  (pps melange.ppx reason-react-ppx))
+ (libraries reason-react)  
  (modes melange))
