@@ -1,6 +1,0 @@
-(library
- (name some_name)
- (preprocess
-  (pps melange.ppx))
- (libraries reason-react)
- (modes melange))

@@ -1,4 +1,12 @@
+(** To explain some terminology:
+    - Size: One of 16, 20, or 24
+    - Flavor: One of Outline, Solid, Mini, or Micro
+
+    All icons in one size x flavor get put into one file at e.g.
+    src/S16/outline.re *)
+
 let make_icon_string folder icon =
+  (* The name ends with Icon, so we drop that at the end *)
   let drop_last_four s =
     let len = String.length s in
     String.sub s 0 (len - 4)
@@ -12,14 +20,17 @@ let make_icon_string folder icon =
  };|}
     icon_mod_name folder icon
 
+(** The root env variable is set within `.envrc` *)
 let root = Sys.getenv "ROOT"
+
 let hero_root = root ^ "/node_modules/@heroicons/react/"
 
-let icon_folders =
+(** [sizes] will contain 16, 20, 24 *)
+let sizes =
   hero_root |> Sys.readdir |> Array.to_list
   |> List.filter (fun f -> Option.is_some (int_of_string_opt f))
 
-let size_folder_to_dune folder =
+let render_size_to_dune ~target_dir size =
   let dune_content =
     Format.sprintf
       {|(library
@@ -28,21 +39,22 @@ let size_folder_to_dune folder =
   (pps melange.ppx reason-react-ppx))
  (libraries reason-react)
  (modes melange))|}
-      ("s" ^ folder)
-  in
-  let target_dir = root ^ "/src/" ^ ("S" ^ folder) ^ "/" in
-  let () =
-    if not (Sys.file_exists target_dir) then Sys.mkdir target_dir 0o777
+      ("s" ^ size)
   in
   let target_file = target_dir ^ "dune" in
   let oc = open_out target_file in
   Printf.fprintf oc "%s\n" dune_content;
   close_out oc
 
-(** This refers to 20, 16 *)
-let size_folder_to_module folder =
-  let () = size_folder_to_dune folder in
-  let dir = hero_root ^ folder ^ "/" in
+let make_size_target_folder size =
+  let target_dir = root ^ "/src/" ^ ("S" ^ size) ^ "/" in
+  let () =
+    if not (Sys.file_exists target_dir) then Sys.mkdir target_dir 0o777
+  in
+  target_dir
+
+let render_size_to_module ~target_dir size =
+  let dir = hero_root ^ size ^ "/" in
   let flavors = Array.to_list @@ Sys.readdir dir in
   (* This refers to outline, solid, etc.  *)
   let render_flavor_to_module flavor =
@@ -57,14 +69,9 @@ let size_folder_to_module folder =
     in
     let full_module =
       let icon_modules =
-        List.map (make_icon_string (folder ^ "/" ^ flavor)) icons
+        List.map (make_icon_string (size ^ "/" ^ flavor)) icons
       in
       String.concat "\n" icon_modules
-    in
-
-    let target_dir = root ^ "/src/" ^ ("S" ^ folder) ^ "/" in
-    let () =
-      if not (Sys.file_exists target_dir) then Sys.mkdir target_dir 0o777
     in
     let target_file = target_dir ^ flavor ^ ".re" in
     let oc = open_out target_file in
@@ -73,4 +80,9 @@ let size_folder_to_module folder =
   in
   List.iter render_flavor_to_module flavors
 
-let () = List.iter size_folder_to_module icon_folders
+let handle_size_folder size =
+  let target_dir = make_size_target_folder size in
+  render_size_to_dune ~target_dir size;
+  render_size_to_module ~target_dir size
+
+let () = List.iter handle_size_folder sizes
