@@ -53,11 +53,13 @@ let render_size_to_module size =
       {|module %s = {
                       %s
          }|}
-      flavor full_module
+      (String.capitalize_ascii flavor)
+      full_module
   in
   let submodules = List.map flavor_to_module flavors in
   let size_module = String.concat "\n" submodules in
-  let target_file = "src/S" ^ size ^ ".re" in
+
+  let target_file = root ^ "/src/s" ^ size ^ ".re" in
   let oc = open_out target_file in
   Printf.fprintf oc "%s\n" size_module;
   close_out oc
