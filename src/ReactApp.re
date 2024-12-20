@@ -5,7 +5,7 @@ module App = {
   [@react.component]
   let make = () =>
     <div>
-      <Some_name.Solid.AcademicCap />
+      <S24.Solid.AcademicCap className="something" />
       <h1> {React.string("melange-opam-template")} </h1>
       {["Hello " ++ World.name ++ "!", "This is ReasonReact!"]
        |> List.map(text =>

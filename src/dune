@@ -15,7 +15,7 @@
  ; Dune will look into those dependencies and generate rules with JavaScript targets
  ; for the modules in those libraries as well.
  ; Caveat: the libraries need to be specified with `(modes melange)`.
- (libraries reason-react some_name world)
+ (libraries reason-react some_name s20 s24 world)
  ; By default, Dune will include all modules in the folder to the targets. With `modules` field
  ; we can tweak this default behavior by excluding `hello` from the list of targets of this stanza.
  ; See https://dune.readthedocs.io/en/stable/reference/predicate-language.html#predicate-language
@@ -34,7 +34,7 @@
 (melange.emit
  (target node)
  (alias node)
- (libraries world some_name)
+ (libraries world some_name s20 s24)
  (modules hello)
  (module_systems
   (es6 mjs)))

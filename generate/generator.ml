@@ -19,8 +19,29 @@ let icon_folders =
   hero_root |> Sys.readdir |> Array.to_list
   |> List.filter (fun f -> Option.is_some (int_of_string_opt f))
 
+let size_folder_to_dune folder =
+  let dune_content =
+    Format.sprintf
+      {|(library
+ (name %s)
+ (preprocess
+  (pps melange.ppx reason-react-ppx))
+ (libraries reason-react)
+ (modes melange))|}
+      ("s" ^ folder)
+  in
+  let target_dir = root ^ "/src/" ^ ("S" ^ folder) ^ "/" in
+  let () =
+    if not (Sys.file_exists target_dir) then Sys.mkdir target_dir 0o777
+  in
+  let target_file = target_dir ^ "dune" in
+  let oc = open_out target_file in
+  Printf.fprintf oc "%s\n" dune_content;
+  close_out oc
+
 (** This refers to 20, 16 *)
 let size_folder_to_module folder =
+  let () = size_folder_to_dune folder in
   let dir = hero_root ^ folder ^ "/" in
   let flavors = Array.to_list @@ Sys.readdir dir in
   (* This refers to outline, solid, etc.  *)
@@ -46,9 +67,6 @@ let size_folder_to_module folder =
       if not (Sys.file_exists target_dir) then Sys.mkdir target_dir 0o777
     in
     let target_file = target_dir ^ flavor ^ ".re" in
-    (* let () = *)
-    (*   if not (Sys.file_exists target_file) then Sys.mkdir target_file 0o777 *)
-    (* in *)
     let oc = open_out target_file in
     Printf.fprintf oc "%s\n" full_module;
     close_out oc
