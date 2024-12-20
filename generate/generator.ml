@@ -44,6 +44,7 @@ let render_size_to_module ~target_dir size =
   let flavors = Array.to_list @@ Sys.readdir dir in
   (* This refers to outline, solid, etc.  *)
   let render_flavor_to_module flavor =
+    Format.printf "Creating module %s.%s...\n" size flavor;
     let icons =
       let dir = dir ^ flavor ^ "/" in
       let icon_file_to_icon_name icon_file =
