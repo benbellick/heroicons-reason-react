@@ -4,7 +4,7 @@
 
 (name heroicons-reason-react)
 
-(generate_opam_files true)
+; (generate_opam_files true)
  
 (version 1.0)
 
