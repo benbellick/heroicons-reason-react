@@ -1,0 +1,5 @@
+(executable
+ (public_name generator) ; Makes it available globally
+ )
+
+; Add required libraries

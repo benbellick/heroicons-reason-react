@@ -1,9 +1,3 @@
-module CopyCode = {
-  [@mel.module "@heroicons/react/24/solid"] [@react.component]
-  external make: (~className: string=?, ~ariaHidden: bool=?) => React.element =
-    "DocumentDuplicateIcon";
-};
-
 module App = {
   let style =
     ReactDOM.Style.make(~fontSize="1.5em", ~display="flex", ~gap="0.5em", ());
@@ -11,7 +5,7 @@ module App = {
   [@react.component]
   let make = () =>
     <div>
-      <CopyCode />
+      <Some_name.Solid.AcademicCap />
       <h1> {React.string("melange-opam-template")} </h1>
       {["Hello " ++ World.name ++ "!", "This is ReasonReact!"]
        |> List.map(text =>
