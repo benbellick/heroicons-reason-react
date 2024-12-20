@@ -30,20 +30,12 @@ let sizes =
   hero_root |> Sys.readdir |> Array.to_list
   |> List.filter (fun f -> Option.is_some (int_of_string_opt f))
 
-let make_size_target_folder size =
-  let target_dir = root ^ "/src/" ^ ("S" ^ size) ^ "/" in
-  let () =
-    if not (Sys.file_exists target_dir) then Sys.mkdir target_dir 0o777
-  in
-  target_dir
-
-let render_size_to_module ~target_dir size =
+let render_size_to_module size =
   let dir = hero_root ^ size ^ "/" in
   let flavors = Array.to_list @@ Sys.readdir dir in
   (* This refers to outline, solid, etc.  *)
-  let render_flavor_to_module flavor =
+  let flavor_to_module flavor =
     Format.printf "Creating module %s/%s...\n" size flavor;
-
     let icons =
       let dir = dir ^ flavor ^ "/" in
       let icon_file_to_icon_name icon_file =
@@ -53,23 +45,23 @@ let render_size_to_module ~target_dir size =
       |> List.filter (String.ends_with ~suffix:"Icon.js")
       |> List.map icon_file_to_icon_name
     in
-    let full_module =
-      let icon_modules =
-        List.map (make_icon_string (size ^ "/" ^ flavor)) icons
-      in
-      String.concat "\n" icon_modules
+    let icon_modules =
+      List.map (make_icon_string (size ^ "/" ^ flavor)) icons
     in
-    let target_file = target_dir ^ flavor ^ ".re" in
-    let oc = open_out target_file in
-    Printf.fprintf oc "%s\n" full_module;
-    close_out oc
+    let full_module = String.concat "\n" icon_modules in
+    Format.sprintf
+      {|module %s = {
+                      %s
+         }|}
+      flavor full_module
   in
-  List.iter render_flavor_to_module flavors
-
-let handle_size_folder size =
-  let target_dir = make_size_target_folder size in
-  render_size_to_module ~target_dir size
+  let submodules = List.map flavor_to_module flavors in
+  let size_module = String.concat "\n" submodules in
+  let target_file = "src/S" ^ size ^ ".re" in
+  let oc = open_out target_file in
+  Printf.fprintf oc "%s\n" size_module;
+  close_out oc
 
 let () =
   Format.printf "Generating wrapper code...\n\n";
-  List.iter handle_size_folder sizes
+  List.iter render_size_to_module sizes
