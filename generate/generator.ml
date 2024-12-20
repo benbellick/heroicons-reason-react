@@ -33,7 +33,9 @@ let sizes =
 let make_size_target_folder size =
   let target_dir = root ^ "/src/" ^ ("S" ^ size) ^ "/" in
   let () =
-    if not (Sys.file_exists target_dir) then Sys.mkdir target_dir 0o777
+    if not (Sys.file_exists target_dir) then (
+      Format.printf "Creating directory %s..." target_dir;
+      Sys.mkdir target_dir 0o777)
   in
   target_dir
 
