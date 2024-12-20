@@ -20,7 +20,7 @@ depends: [
 ]
 build: [
   ["dune" "subst"] {dev}
-  ["dune" "build" "-f" "@generate_docs"]
+  ["dune" "build" "@generate_docs"]
   # The above actually generates the wrapper code
   [
     "dune"
