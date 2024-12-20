@@ -33,6 +33,7 @@
     "serve": "# Serves the React app in a local server"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
