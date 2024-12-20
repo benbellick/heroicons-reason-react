@@ -3,5 +3,3 @@ node_modules
 _build
 _opam
 dist/
-/src/S*/
-/src/s*.re
