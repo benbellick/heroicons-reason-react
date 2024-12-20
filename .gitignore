@@ -3,6 +3,3 @@ node_modules
 _build
 _opam
 dist/
-/src/S16/
-/src/S20/
-/src/S24/

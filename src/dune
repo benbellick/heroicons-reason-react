@@ -5,5 +5,5 @@
 
 (library
  (name heroicons)
- (public_name heroicons-reason-react)  
+ (public_name heroicons-reason-react)
  (modes melange))
