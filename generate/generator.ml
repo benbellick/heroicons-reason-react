@@ -20,9 +20,12 @@ let make_icon_string folder icon =
  };|}
     icon_mod_name folder icon
 
-(** The root env variable is set within `.envrc` *)
-let root = Sys.getenv "ROOT"
+(* (\** The root env variable is set within `.envrc` *\) *)
+(* let root = Sys.getenv "ROOT" *)
 
+let () = Sys.chdir "../../.."
+let root = Sys.getcwd ()
+let () = Format.printf "Current Dir: %s" root
 let hero_root = root ^ "/node_modules/@heroicons/react/"
 
 (** [sizes] will contain 16, 20, 24 *)
