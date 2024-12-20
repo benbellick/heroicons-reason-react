@@ -1,11 +1,7 @@
 (rule
- (alias pre_build)
+ (alias generate_code)
  (action
   (run generator)))
 
 (library
- (name hero_icons)
- (libraries react)
- (preprocess
-  (pps melange.ppx))
- (modes melange))
+ (name hero_icons))

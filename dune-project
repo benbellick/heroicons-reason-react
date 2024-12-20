@@ -2,20 +2,36 @@
 
 (using melange 0.1)
 
-(name melange-opam-template)
+(name heroicons-reason-react)
 
+(generate_opam_files true)
+ 
+(version 1.0)
+
+(source
+ (github benbellick/heroicons-reason-react)) 
+ 
 (license "MIT")
 
-(maintainers <your_name>)
+(authors "Ben Bellick <benbellick@pm.me>")
 
-(authors <your_name>)
+(maintainers "Ben Bellick <benbellick@pm.me>")
 
-(homepage https://github.com/your/project)
+(documentation https://github.com/benbellick/heroicons-reason-react) 
 
-(bug_reports https://github.com/your/project/issues)
+(homepage https://github.com/benbellick/heroicons-reason-react)
+
+(bug_reports https://github.com/benbellick/heroicons-reason-react/issues)
 
 (package
- (allow_empty)
- (name melange-opam-template)
- (synopsis "Melange project")
- (description "Minimal melange project"))
+ (name heroicons-reason-react)
+ (synopsis "ReasonML bindings to the Heroicons React components")
+ (depends
+   ocaml
+  (reason (>= 3.13.0))
+  (dune (>= 3.8))
+  (melange (>= 4.0.0))
+  (reason-react (>= 0.15.0))
+   reason-react-ppx)
+ (tags
+  ("heroicons" "icons" "reason" "react")))
