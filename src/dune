@@ -6,5 +6,4 @@
 (library
  (name heroicons)
  (public_name heroicons-reason-react)  
- (wrapped false)
  (modes melange))
