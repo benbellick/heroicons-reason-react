@@ -10,5 +10,5 @@
  (public_name heroicons-reason-react)
  (preprocess
   (pps melange.ppx reason-react-ppx))
- (libraries reason-react)  
+ (libraries reason-react)
  (modes melange))
