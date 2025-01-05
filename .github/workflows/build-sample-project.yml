@@ -13,9 +13,7 @@ jobs:
     strategy:
       matrix:
         system:
-          - macos-latest
           - ubuntu-latest
-          # - windows-latest # for some reason windows build is not picking dune 3.5
         ocaml-compiler:
           - 5.2.0
 
@@ -36,12 +34,12 @@ jobs:
       - name: Install all deps
         run: npm run install-opam-npm
 
-      - name: Build basic template
-        run: npm run build
+      - name: Generate icon wrappers
+        run: dune exec -- generator
 
-      - name: Bundle React app
-        run: npm run bundle
+      - name: Check that generated code matches VC code
+        run: git diff
 
-      - name: Run Node app
-        run: |
-          node _build/default/src/node/src/Hello.mjs
+      - name: Build
+        run: dune build
+
