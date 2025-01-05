@@ -53,6 +53,7 @@ let render_size_to_module ~target_dir size =
       dir |> Sys.readdir |> Array.to_list
       |> List.filter (String.ends_with ~suffix:"Icon.js")
       |> List.map icon_file_to_icon_name
+      |> List.sort String.compare
     in
     let full_module =
       let icon_modules =

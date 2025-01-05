@@ -38,7 +38,7 @@ jobs:
         run: opam exec dune exec -- generator
 
       - name: Check that generated code matches VC code
-        run: git diff
+        run: git diff --exit-code
 
       - name: Build
         run: opam exec dune build
