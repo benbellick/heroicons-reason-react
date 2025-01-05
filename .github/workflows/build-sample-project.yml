@@ -32,7 +32,7 @@ jobs:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
       - name: Install all deps
-        run: npm run install-opam-npm
+        run: npm run install-opam-npm && eval $(opam config env)
 
       - name: Generate icon wrappers
         run: dune exec -- generator
