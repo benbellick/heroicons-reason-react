@@ -21,7 +21,7 @@ jobs:
     runs-on: ${{ matrix.system }}
     steps:
       - uses: actions/checkout@v3
-
+      - uses: HatsuneMiku3939/direnv-action@v1        
       - uses: actions/setup-node@v3
         with:
           node-version: current
