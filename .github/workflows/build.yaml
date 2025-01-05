@@ -3,25 +3,13 @@ on:
   push:
    branches:
      - main
-  schedule:
-    # Prime the caches every Monday
-    - cron: 0 1 * * MON
-
 jobs:
-  build-sample-project:
-    name: Build sample project
-    strategy:
-      matrix:
-        system:
-          - ubuntu-latest
-        ocaml-compiler:
-          - 5.2.0
-
-      fail-fast: false
-    runs-on: ${{ matrix.system }}
+  build:
+    name: Generate wrapper files and build project
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: HatsuneMiku3939/direnv-action@v1        
+      - uses: HatsuneMiku3939/direnv-action@v1
       - uses: actions/setup-node@v3
         with:
           node-version: current
@@ -29,7 +17,7 @@ jobs:
       - name: Use OCaml ${{ matrix.ocaml-compiler }}
         uses: ocaml/setup-ocaml@v3
         with:
-          ocaml-compiler: ${{ matrix.ocaml-compiler }}
+          ocaml-compiler: 5.2.0
 
       - name: Install all deps
         run: npm run install-opam-npm
