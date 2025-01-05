@@ -18,9 +18,11 @@ depends: [
   "reason-react-ppx"
   "odoc" {with-doc}
 ]
+depexts: [
+  ["@heroicons/react"] {npm-version = "^2.2.0"}
+]
 build: [
   ["dune" "subst"] {dev}
-  ["dune" "build" "-f" "@generate_code"] {dev}  
   [
     "dune"
     "build"
