@@ -32,14 +32,14 @@ jobs:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
 
       - name: Install all deps
-        run: npm run install-opam-npm && eval $(opam config env)
+        run: npm run install-opam-npm
 
       - name: Generate icon wrappers
-        run: dune exec -- generator
+        run: opam exec dune exec -- generator
 
       - name: Check that generated code matches VC code
         run: git diff
 
       - name: Build
-        run: dune build
+        run: opam exec dune build
 
